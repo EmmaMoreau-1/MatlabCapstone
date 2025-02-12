@@ -404,6 +404,17 @@ function GUI_update_dec2()
         % flushoutput(s);
         % flushinput(s);
         % disp(size(xyz));
+        for i=1:length(xyz)
+            R = xyz(i ,1);
+            G = xyz(i, 2);
+            B = xyz(i, 3); 
+            color = int8(bitsll((R * 7 / 255), 5) + bitsll((G * 7 / 255), 2)  + (B * 3 / 255));
+            %disp(color);
+        end
+        %disp(length(xyz));
+        % flushoutput(s);
+        % flushinput(s);
+        % disp(size(xyz));
         % for i=1:length(xyz)
         %     %disp(xyz(i, 1));
         %     R = xyz(i ,1);
