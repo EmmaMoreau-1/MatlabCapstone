@@ -459,18 +459,21 @@ function GUI_update_feb17()
     end
 
     function image_download(~,~)
-        file = uigetfile('*.jpg'); % Get image file
+        file = uigetfile({'*.jpg';'*.png';'*.bmp'}, 'File Selector'); % Get image file
+        % run for jpg, not png?, works for bmp
+        %file = uigetfile('*.jpg'); % Get image file
         Name = file; % set Name in textbox
+        disp(file);
         file = double(imread(file)); % Convert to RGBs
         [r, g, b] = imsplit(file);
         xyz = [r(:), g(:), b(:)];
 
         % Send pixel enable
-        flushoutput(s);
-        flushinput(s);
-        fprintf(s, '%s', 0);
-        flushoutput(s);
-        flushinput(s);
+        % flushoutput(s);
+        % flushinput(s);
+        % fprintf(s, '%s', 0);
+        % flushoutput(s);
+        % flushinput(s);
        
         for i=1:length(xyz)
             R = xyz(i ,1);
@@ -478,19 +481,23 @@ function GUI_update_feb17()
             B = xyz(i, 3); 
             % Convert the 24 bit RGB to 8 bit RGB
             color = int8(bitsll((R * 7 / 255), 5) + bitsll((G * 7 / 255), 2)  + (B * 3 / 255));
-            flushoutput(s);
-            flushinput(s);
-            fprintf(s, '%s', color); % Send pixel
-            flushoutput(s);
-            flushinput(s);
+            if color == 0
+                color = 1;
+            end
+            disp(color);
+            % flushoutput(s);
+            % flushinput(s);
+            % fprintf(s, '%s', color); % Send pixel
+            % flushoutput(s);
+            % flushinput(s);
         end
 
         % Send pixel disable
-        flushoutput(s);
-        flushinput(s);
-        fprintf(s, '%s', 0);
-        flushoutput(s);
-        flushinput(s);
+        % flushoutput(s);
+        % flushinput(s);
+        % fprintf(s, '%s', 0);
+        % flushoutput(s);
+        % flushinput(s);
     end
 
     function reset(~,~)
