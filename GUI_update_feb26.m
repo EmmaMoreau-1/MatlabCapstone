@@ -1,4 +1,4 @@
-function GUI_update_feb17()
+function GUI_update_feb26()
 
     % Set up variables to hold commands
     res = 4; % 640, 800, 1280, 1920
@@ -8,11 +8,11 @@ function GUI_update_feb17()
     reset_on = 0; % 0, 1;
 
     % Serial setup
-    comPort = 'COM1'; % Serial Port
+    comPort = 'COM9'; % Serial Port
     baudRate = 115200; % Specified for UART
-    %s = serial(comPort, 'BaudRate', baudRate);
+    s = serial(comPort, 'BaudRate', baudRate);
     % Open the serial port
-    %fopen(s);
+    fopen(s);
     disp('UART communication opened.');
 
     % Create a figure for the GUI
@@ -469,13 +469,12 @@ function GUI_update_feb17()
         xyz = [r(:), g(:), b(:)];
 
         % Send pixel enable
-        % flushoutput(s);
-        % flushinput(s);
-        % fprintf(s, '%s', 0);
-        % flushoutput(s);
-        % flushinput(s);
+        %flushoutput(s);
+        %flushinput(s);
+        fprintf(s, '%s', 0);
+        %flushoutput(s);
+        %flushinput(s);
        
-        disp(length(xyz));
         for i=1:length(xyz)
             R = xyz(i ,1);
             G = xyz(i, 2);
@@ -486,19 +485,18 @@ function GUI_update_feb17()
             if color == 0
                 color = 1;
             end
-            % disp(color);
-            % disp(class(color));
+            disp(color);
             % flushoutput(s);
             % flushinput(s);
-            % fprintf(s, '%s', color); % Send pixel
-            % flushoutput(s);
-            % flushinput(s);
-        end
-
-        % Send pixel disable
+             fprintf(s, '%s', color); % Send pixel
+        %     flushoutput(s);
+        %     flushinput(s);
+         end
+        % 
+        % % Send pixel disable
         % flushoutput(s);
         % flushinput(s);
-        % fprintf(s, '%s', 0);
+         fprintf(s, '%s', 0);
         % flushoutput(s);
         % flushinput(s);
     end
@@ -509,13 +507,13 @@ function GUI_update_feb17()
     end
 
     % Cleanup on close
-    set(f, 'CloseRequestFcn', @(src, event) closeFigure(src));
+    set(f, 'CloseRequestFcn', @(src, event) closeFigure(src, s));
 end
 
-function closeFigure(f)
+function closeFigure(f,s)
     % Close the serial port
-    %fclose(s);
+    fclose(s);
     disp('UART communication closed.');
-    %delete(s);
+    delete(s);
     delete(f);
 end
