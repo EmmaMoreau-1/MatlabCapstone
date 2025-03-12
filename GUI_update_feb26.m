@@ -475,6 +475,25 @@ function GUI_update_feb26()
         %flushoutput(s);
         %flushinput(s);
        
+        % Send HRes
+        info = imfinfo(Name);
+        hres = info.Width;
+        vres = info.Height;
+        %disp(class(hres)); % double
+        %disp(class(vres));
+        %flushoutput(s);
+        %flushinput(s);
+        fprintf(s, '%s', hres);
+        %flushoutput(s);
+        %flushinput(s);
+
+        %Send vres
+        %flushoutput(s);
+        %flushinput(s);
+        fprintf(s, '%s', vres);
+        %flushoutput(s);
+        %flushinput(s);
+
         for i=1:length(xyz)
             R = xyz(i ,1);
             G = xyz(i, 2);
@@ -485,10 +504,10 @@ function GUI_update_feb26()
             if color == 0
                 color = 1;
             end
-            disp(color);
+           % disp(color);
             % flushoutput(s);
             % flushinput(s);
-             fprintf(s, '%s', color); % Send pixel
+            fprintf(s, '%s', color); % Send pixel
         %     flushoutput(s);
         %     flushinput(s);
          end
@@ -496,7 +515,7 @@ function GUI_update_feb26()
         % % Send pixel disable
         % flushoutput(s);
         % flushinput(s);
-         fprintf(s, '%s', 0);
+        fprintf(s, '%s', 0);
         % flushoutput(s);
         % flushinput(s);
     end
@@ -508,6 +527,7 @@ function GUI_update_feb26()
 
     % Cleanup on close
     set(f, 'CloseRequestFcn', @(src, event) closeFigure(src, s));
+    %set(f, 'CloseRequestFcn', @(src, event) closeFigure(src));
 end
 
 function closeFigure(f,s)
@@ -517,3 +537,11 @@ function closeFigure(f,s)
     delete(s);
     delete(f);
 end
+
+% function closeFigure(f)
+%     % Close the serial port
+%     %fclose(s);
+%     disp('UART communication closed.');
+%     %delete(s);
+%     delete(f);
+% end
